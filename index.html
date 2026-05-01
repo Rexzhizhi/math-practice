@@ -130,6 +130,13 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#f0eeff 0
 .group-box{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:.5rem 0;}
 .grp{border:2px solid #7F77DD;border-radius:10px;padding:6px 8px;display:flex;gap:4px;flex-wrap:wrap;align-items:center;justify-content:center;}
 .grp .dot{width:13px;height:13px;}
+.drill-card{background:#fff;border:2px solid #e8e5ff;border-radius:20px;padding:1.4rem;margin-bottom:12px;box-shadow:0 4px 16px rgba(83,74,183,.08);}
+.drill-icon{font-size:36px;margin-bottom:.5rem;}
+.drill-name{font-size:17px;font-weight:800;color:#3C3489;margin-bottom:.3rem;}
+.drill-desc{font-size:13px;color:#555;line-height:1.6;margin-bottom:.4rem;}
+.drill-examples{font-size:12px;color:#888;margin-bottom:1rem;font-style:italic;}
+.drill-start-btn{width:100%;height:46px;border-radius:12px;background:#534AB7;color:#fff;border:none;font-size:15px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;touch-action:manipulation;box-shadow:0 3px 10px rgba(83,74,183,.2);}
+.drill-start-btn:hover{background:#3C3489;}
 </style>
 </head>
 <body>
@@ -145,7 +152,8 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#f0eeff 0
 
     <div class="top-nav">
       <button class="nav-btn active" id="nav-practice">✏️ Practice</button>
-      <button class="nav-btn" id="nav-history">📊 Reports / 报告</button>
+      <button class="nav-btn" id="nav-drill">🎯 Special / 特训</button>
+      <button class="nav-btn" id="nav-history">📊 Reports</button>
     </div>
 
     <div class="op-tabs">
@@ -203,6 +211,71 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#f0eeff 0
     </div>
   </div>
 
+  <!-- ── SPECIAL DRILL PAGE ── -->
+  <div class="page" id="page-drill">
+    <div class="history-header">
+      <h2>🎯 Special Training / 特训</h2>
+      <p>10 questions per session / 每次10题</p>
+    </div>
+    <div class="top-nav">
+      <button class="nav-btn" id="nav-practice3">✏️ Practice</button>
+      <button class="nav-btn active" id="nav-drill3">🎯 Special / 特训</button>
+      <button class="nav-btn" id="nav-history3">📊 Reports</button>
+    </div>
+
+    <!-- drill selector -->
+    <div id="drill-selector">
+      <div class="drill-card" id="drill-card-carry">
+        <div class="drill-icon">➕</div>
+        <div class="drill-name">Carrying / 进位加法</div>
+        <div class="drill-desc">Addition where ones add up to 10 or more<br>个位相加满十要进一</div>
+        <div class="drill-examples">e.g. 7+8, 15+7, 28+6, 47+35</div>
+        <button class="drill-start-btn" data-drill="carry">Start 开始 →</button>
+      </div>
+      <div class="drill-card" id="drill-card-borrow">
+        <div class="drill-icon">➖</div>
+        <div class="drill-name">Borrowing / 借位减法</div>
+        <div class="drill-desc">Subtraction where we need to borrow from the tens<br>个位不够减要向十位借一</div>
+        <div class="drill-examples">e.g. 23−7, 50−14, 42−8, 63−28</div>
+        <button class="drill-start-btn" data-drill="borrow">Start 开始 →</button>
+      </div>
+    </div>
+
+    <!-- drill practice area -->
+    <div id="drill-practice" style="display:none;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+        <button id="drill-back-btn" style="padding:6px 14px;border-radius:20px;border:1.5px solid #e0ddf7;background:#fff;color:#534AB7;font-family:Nunito,sans-serif;font-weight:700;font-size:13px;cursor:pointer;">← Back</button>
+        <div style="font-size:14px;font-weight:700;color:#534AB7;" id="drill-title">Carrying / 进位加法</div>
+      </div>
+      <div class="q-dots" id="drill-dots"></div>
+      <div class="progress-info" id="drill-progress-info">Question 1 of 10</div>
+      <div class="progress-wrap"><div class="progress-fill" id="drill-progress" style="width:0%"></div></div>
+      <div class="problem-card">
+        <div class="problem-text" id="drill-problem">7 + 8 = ?</div>
+        <div class="answer-row">
+          <input type="number" id="drill-input" placeholder="?" inputmode="numeric" autocomplete="off"/>
+          <button class="submit-btn" id="drill-submit">Check ✓</button>
+        </div>
+      </div>
+      <div class="feedback" id="drill-feedback"></div>
+      <button class="next-btn" id="drill-next">Next / 下一题 →</button>
+
+      <!-- drill report -->
+      <div class="report-card" id="drill-report" style="display:none;">
+        <div class="report-title" id="drill-report-title">Special Training Complete! 🎉</div>
+        <div class="report-summary">
+          <div class="r-stat"><div class="r-label">Correct</div><div class="r-val" id="dr-correct">0/10</div></div>
+          <div class="r-stat"><div class="r-label">Points</div><div class="r-val" id="dr-score">0</div></div>
+          <div class="r-stat"><div class="r-label">Rating</div><div class="r-val" id="dr-rating">⭐</div></div>
+        </div>
+        <div class="q-list" id="drill-q-list"></div>
+        <br>
+        <button class="action-btn btn-primary" id="drill-again-btn">🔄 Try Again / 再练一次</button>
+        <button class="action-btn btn-secondary" id="drill-other-btn">Try Other / 换一个特训</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ── HISTORY PAGE ── -->
   <div class="page" id="page-history">
     <div class="history-header">
@@ -212,7 +285,8 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#f0eeff 0
 
     <div class="top-nav">
       <button class="nav-btn" id="nav-practice2">✏️ Practice</button>
-      <button class="nav-btn active" id="nav-history2">📊 Reports / 报告</button>
+      <button class="nav-btn" id="nav-drill2">🎯 Special / 特训</button>
+      <button class="nav-btn active" id="nav-history2">📊 Reports</button>
     </div>
 
     <div id="history-list"></div>
@@ -259,12 +333,23 @@ function saveSession(session){
 function showPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll(`[id^="nav-${name}"]`).forEach(b=>b.classList.add('active'));
   if(name==='history')renderHistory();
+  if(name==='drill'){
+    document.getElementById('drill-selector').style.display='block';
+    document.getElementById('drill-practice').style.display='none';
+  }
 }
 document.getElementById('nav-practice').addEventListener('click',()=>showPage('practice'));
-document.getElementById('nav-history').addEventListener('click',()=>showPage('history'));
 document.getElementById('nav-practice2').addEventListener('click',()=>showPage('practice'));
+document.getElementById('nav-practice3').addEventListener('click',()=>showPage('practice'));
+document.getElementById('nav-drill').addEventListener('click',()=>showPage('drill'));
+document.getElementById('nav-drill2').addEventListener('click',()=>showPage('drill'));
+document.getElementById('nav-drill3').addEventListener('click',()=>showPage('drill'));
+document.getElementById('nav-history').addEventListener('click',()=>showPage('history'));
 document.getElementById('nav-history2').addEventListener('click',()=>showPage('history'));
+document.getElementById('nav-history3').addEventListener('click',()=>showPage('history'));
 
 // ── GAME LOGIC ────────────────────────────────────────────────
 function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
@@ -558,6 +643,154 @@ document.querySelectorAll('.level-pill').forEach(pill=>{
 });
 
 buildLevel();
+
+// ── SPECIAL DRILL LOGIC ───────────────────────────────────────
+const DRILL_Q=10;
+let drill={type:'carry',qIndex:0,questions:[],results:[]};
+
+function makeDrillQuestion(type){
+  let a,b,answer;
+  if(type==='carry'){
+    let tries=0;
+    do{
+      const lvl=Math.random();
+      if(lvl<0.33){a=rand(1,9);b=rand(1,9);}
+      else if(lvl<0.66){a=rand(10,30);b=rand(1,15);}
+      else{a=rand(11,49);b=rand(11,49);}
+      tries++;
+    }while((a%10)+(b%10)<10&&tries<50);
+    answer=a+b;
+    return{a,b,op:'+',answer,display:`${a} + ${b}`};
+  }else{
+    let tries=0;
+    do{
+      const lvl=Math.random();
+      if(lvl<0.33){a=rand(11,19);b=rand(2,9);}
+      else if(lvl<0.66){a=rand(21,59);b=rand(2,19);}
+      else{a=rand(21,99);b=rand(11,49);}
+      tries++;
+    }while(((a%10)>=(b%10))||(b%10===0)||a<=b&&tries<50);
+    if(a<=b)a=b+rand(1,10);
+    answer=a-b;
+    return{a,b,op:'-',answer,display:`${a} − ${b}`};
+  }
+}
+
+function buildDrill(type){
+  drill.type=type;drill.qIndex=0;drill.results=[];
+  drill.questions=Array.from({length:DRILL_Q},()=>makeDrillQuestion(type));
+  const titles={carry:'Carrying / 进位加法',borrow:'Borrowing / 借位减法'};
+  document.getElementById('drill-title').textContent='🎯 '+titles[type];
+  document.getElementById('drill-selector').style.display='none';
+  document.getElementById('drill-practice').style.display='block';
+  document.getElementById('drill-report').style.display='none';
+  document.querySelector('#drill-practice .problem-card').style.display='block';
+  showDrillQuestion();
+}
+
+function showDrillQuestion(){
+  const q=drill.questions[drill.qIndex];
+  document.getElementById('drill-problem').textContent=q.display+' = ?';
+  document.getElementById('drill-input').value='';
+  document.getElementById('drill-feedback').style.display='none';
+  document.getElementById('drill-next').style.display='none';
+  document.getElementById('drill-submit').disabled=false;
+  document.getElementById('drill-progress-info').textContent=`Question ${drill.qIndex+1} of ${DRILL_Q}`;
+  document.getElementById('drill-progress').style.width=((drill.qIndex/DRILL_Q)*100)+'%';
+  updateDrillDots();
+  setTimeout(()=>document.getElementById('drill-input').focus(),100);
+}
+
+function updateDrillDots(){
+  const container=document.getElementById('drill-dots');
+  container.innerHTML='';
+  for(let i=0;i<DRILL_Q;i++){
+    const d=document.createElement('div');
+    d.style.cssText='width:24px;height:24px;border-radius:50%;border:2px solid #e0ddf7;background:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#bbb;margin:2px;';
+    d.textContent=i+1;
+    if(i<drill.results.length){
+      if(drill.results[i].correct){d.style.background='#9FE1CB';d.style.borderColor='#5DCAA5';d.style.color='#085041';d.textContent='✓';}
+      else{d.style.background='#F5C4B3';d.style.borderColor='#F0997B';d.style.color='#4A1B0C';d.textContent='✗';}
+    }else if(i===drill.qIndex){d.style.borderColor='#7F77DD';d.style.background='#EEEDFE';d.style.color='#534AB7';}
+    container.appendChild(d);
+  }
+}
+
+document.getElementById('drill-submit').addEventListener('click',()=>{
+  const val=parseInt(document.getElementById('drill-input').value);
+  if(isNaN(val)){document.getElementById('drill-input').focus();return;}
+  const q=drill.questions[drill.qIndex];
+  document.getElementById('drill-submit').disabled=true;
+  const correct=(val===q.answer);
+  const fb=document.getElementById('drill-feedback');
+  let hint='';
+  if(correct){
+    fb.className='feedback correct';
+    const praise=[['Excellent! 🌟','太棒了！'],['Great job! 🎉','做得很好！'],['Perfect! 💫','完美！'],['Well done! 👏','干得漂亮！'],['Awesome! 🚀','厉害！']];
+    const p=praise[Math.floor(Math.random()*praise.length)];
+    fb.textContent=`${p[0]} ${p[1]}  ✓ ${q.answer}`;
+    fb.style.display='block';
+  }else{
+    const{en,zh}=getFeedback(q,val);
+    hint=en+'\n'+zh;
+    fb.className='feedback wrong';
+    fb.innerHTML=`<b>Not quite! 差一点！</b> Answer / 答案 = <b>${q.answer}</b><br><br>${en}<br><br><span style="color:#085041">${zh}</span>`;
+    fb.style.display='block';
+  }
+  drill.results.push({q,userAns:val,correct,hint});
+  updateDrillDots();
+  const isLast=drill.qIndex===DRILL_Q-1;
+  document.getElementById('drill-next').style.display='block';
+  document.getElementById('drill-next').textContent=isLast?'See results! 🏆':'Next / 下一题 →';
+});
+
+document.getElementById('drill-next').addEventListener('click',()=>{
+  drill.qIndex++;
+  if(drill.qIndex<DRILL_Q){showDrillQuestion();}else{showDrillReport();}
+});
+
+document.getElementById('drill-input').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('drill-submit').click();});
+
+function showDrillReport(){
+  document.querySelector('#drill-practice .problem-card').style.display='none';
+  document.getElementById('drill-feedback').style.display='none';
+  document.getElementById('drill-next').style.display='none';
+  document.getElementById('drill-report').style.display='block';
+  document.getElementById('drill-progress').style.width='100%';
+  const numCorrect=drill.results.filter(r=>r.correct).length;
+  const rating=numCorrect>=9?'⭐⭐⭐':numCorrect>=6?'⭐⭐':'⭐';
+  const typeName=drill.type==='carry'?'Carrying 进位加法':'Borrowing 借位减法';
+  document.getElementById('drill-report-title').textContent=`${typeName} Done! 🎉`;
+  document.getElementById('dr-correct').textContent=`${numCorrect}/10`;
+  document.getElementById('dr-score').textContent=numCorrect*15;
+  document.getElementById('dr-rating').textContent=rating;
+  const list=document.getElementById('drill-q-list');
+  list.innerHTML='';
+  drill.results.forEach(r=>{
+    const row=document.createElement('div');
+    row.className='q-row';
+    row.innerHTML=`<span class="q-tag ${r.correct?'ok':'no'}">${r.correct?'✓':'✗'}</span>
+    <div class="q-detail">
+      <div><b>${r.q.display} = ${r.q.answer}</b>${r.correct?'':` <span style="color:#F0997B">(you said: ${r.userAns})</span>`}</div>
+      ${r.hint?`<div class="q-hint">${r.hint.replace(/\n/g,'<br>')}</div>`:''}
+    </div>`;
+    list.appendChild(row);
+  });
+  saveSession({date:new Date().toISOString(),level:'🎯 Special',op:drill.type==='carry'?'+ carry':'- borrow',numCorrect,total:DRILL_Q,points:numCorrect*15,rating,results:drill.results.map(r=>({display:r.q.display,answer:r.q.answer,userAns:r.userAns,correct:r.correct,hint:r.hint}))});
+}
+
+document.getElementById('drill-again-btn').addEventListener('click',()=>buildDrill(drill.type));
+document.getElementById('drill-other-btn').addEventListener('click',()=>{
+  document.getElementById('drill-selector').style.display='block';
+  document.getElementById('drill-practice').style.display='none';
+});
+document.getElementById('drill-back-btn').addEventListener('click',()=>{
+  document.getElementById('drill-selector').style.display='block';
+  document.getElementById('drill-practice').style.display='none';
+});
+document.querySelectorAll('.drill-start-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>buildDrill(btn.dataset.drill));
+});
 </script>
 </body>
 </html>
